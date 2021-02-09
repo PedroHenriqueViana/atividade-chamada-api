@@ -35,45 +35,30 @@ async function fazerLoginNaAPI() {
 }
 
 async function buscarTarefasNaAPI() {
-    /*
-    Listagem das tarefas (to-dos)
-    URL: https://cdb-todolist-api.herokuapp.com/v1/todos
-    Method: GET
-    Headers: Content-Type e x-access-token
-    Resposta:
-    [
-        { 
-            "_id": 1,
-            "title": "Título da Tarefa",
-            "done": false,
-            "tags": [
-                "teste", "atividade"
-            ]
-        },
-        { 
-            "_id": 2,
-            "title": "Título da Tarefa 2",
-            "done": true,
-            "tags": [
-                "outro"
-            ]
+    var respostaAPI = await fetch("https://cdb-todolist-api.herokuapp.com/v1/todos", {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
         }
-    ]
-    */
-
-    var respostaAPI = "aqui vai ser a sua requisição";
-    var respostaJSON = "aqui vc vai transformar a resposta da sua requisição em um JSON"
+    });
 
     if (respostaAPI.status === 200) {
+        var respostaJSON = await respostaAPI.json();
+
         var listaDeTarefas = document.getElementById("lista-de-tarefas");
-        
+        listaDeTarefas.innerHTML = "";
+
+        console.log(respostaJSON);
+
         for (var contador = 0; contador < respostaJSON.length; contador++) {
 
             var novoItem = document.createElement("li");
-            novoItem.innerHTML = "aqui seria legal vc pegar o título da tarefa";
+            novoItem.innerHTML = respostaJSON[contador].title;
 
             listaDeTarefas.appendChild(novoItem);
         }
+
     } else {
         alert(respostaJSON.message);
     }
