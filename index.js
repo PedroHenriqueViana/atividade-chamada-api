@@ -39,7 +39,7 @@ async function buscarTarefasNaAPI() {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token")
+            "x-access-token": token
         }
     });
 
