@@ -1,14 +1,17 @@
 var token;
 
 async function testarChamadaGET() {
+    debugger
     var response = await fetch("https://cdb-todolist-api.herokuapp.com/v1");
     var jsonResponse = await response.json();
 
     var h2 = document.getElementById("resultado-get");
-    h2.innerHTML = jsonResponse.title + " - " + jsonResponse.description;
+    h2.innerHTML = jsonResponse.title + " - " + jsonResponse.description + " - " + jsonResponse.version;
 }
 
 async function fazerLoginNaAPI() {
+    debugger
+
     var body = {
         email: "caio.campsv@gmail.com",
         password: "tabmedia@2021"
@@ -60,9 +63,15 @@ async function buscarTarefasNaAPI() {
         }
     ]
     */
-
-    var respostaAPI = "aqui vai ser a sua requisição";
-    var respostaJSON = "aqui vc vai transformar a resposta da sua requisição em um JSON"
+    debugger
+    var respostaAPI = await fetch("https://cdb-todolist-api.herokuapp.com/v1/todos",{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token
+        }
+    });
+    var respostaJSON = await respostaAPI.json();
 
     if (respostaAPI.status === 200) {
         var listaDeTarefas = document.getElementById("lista-de-tarefas");
@@ -70,7 +79,7 @@ async function buscarTarefasNaAPI() {
         for (var contador = 0; contador < respostaJSON.length; contador++) {
 
             var novoItem = document.createElement("li");
-            novoItem.innerHTML = "aqui seria legal vc pegar o título da tarefa";
+            novoItem.innerHTML = respostaJSON[contador].title;
 
             listaDeTarefas.appendChild(novoItem);
         }
